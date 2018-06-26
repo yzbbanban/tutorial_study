@@ -72,6 +72,7 @@ PORT = 27017
 MONGO_DB = 'tutorial'
 USERNAME = 'market'
 PASSWORD = 'market123'
+
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
 # AUTOTHROTTLE_ENABLED = True
