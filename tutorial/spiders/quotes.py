@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
+from tutorial.items import TutorialItem
 
 
 class QuotesSpider(scrapy.Spider):
@@ -9,4 +10,15 @@ class QuotesSpider(scrapy.Spider):
 
     # 初始请求结束时调用
     def parse(self, response):
-        pass
+        quotes = response.css('.quote')
+        for quote in quotes:
+            item = TutorialItem()
+            item['text'] = quote.css('.text::text').extract_first()
+            item['author'] = quote.css('.author::text').extract_first()
+            item['tags'] = quote.css('.tags .tag::text').extract()
+            yield item
+
+        next = response.css('.pager .next a::attr("href")').extract_first()
+        url = response.urljoin(next)
+        yield scrapy.Request(url=url, callback=self.parse)
+        # pass
